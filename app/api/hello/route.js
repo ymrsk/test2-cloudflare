@@ -5,6 +5,9 @@ export const runtime = 'edge'
 export async function GET(request) {
   let responseText = 'Hello World'
 
+  const myKv = getRequestContext().env.TEST2
+  const kvValue = await myKv.get(`test-cloudflare`) || false
+
   // In the edge runtime you can use Bindings that are available in your application
   // (for more details see:
   //    - https://developers.cloudflare.com/pages/framework-guides/deploy-a-nextjs-site/#use-bindings-in-your-nextjs-application
@@ -17,5 +20,5 @@ export async function GET(request) {
   // const suffix = await myKv.get('suffix')
   // responseText += suffix
 
-  return new Response(responseText)
+  return new Response(`${responseText} : kvValue: ${kvValue}`)
 }
